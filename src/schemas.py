@@ -7,6 +7,7 @@ from datetime import datetime
 
 class Item(BaseModel):
     id: int = uuid.uuid4()
+    order_id: int
     name: str
     price: float
     number: int

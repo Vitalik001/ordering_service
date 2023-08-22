@@ -1,12 +1,7 @@
-import uuid
-from typing import List
-
 from pydantic import BaseModel
-from datetime import datetime
 
 
 class Item(BaseModel):
-    id: int = uuid.uuid4()
     order_id: int
     name: str
     price: float
@@ -23,9 +18,5 @@ class Stats(BaseModel):
 
 
 class Order(BaseModel):
-    id: int = uuid.uuid4()
-    created_date: datetime
-    updated_date: datetime
     title: str
     total: float
-    items: List[Item]

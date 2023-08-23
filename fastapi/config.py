@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     db_name: str
 
     class Config:
-        env_file = "../.env"
+        env_file = ".env"
 
 
 @lru_cache()

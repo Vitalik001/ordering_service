@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from schemas import Item
-from db import get_async_pool
+from database_config import get_async_pool
 
 items = APIRouter(prefix="/items")
 

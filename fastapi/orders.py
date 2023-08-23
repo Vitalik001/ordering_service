@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 import datetime
 import schemas
-from db import get_async_pool
+from database_config import get_async_pool
 
 orders = APIRouter(prefix="/orders")
 

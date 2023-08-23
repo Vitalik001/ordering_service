@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  fastapi:
+    build: fastapi
+    environment:
+      - PYTHONUNBUFFERED=0
+    volumes:
+      - ./fastapi:/code/fastapi
+    ports:
+      - "80:80"

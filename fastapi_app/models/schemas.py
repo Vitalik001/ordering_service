@@ -2,7 +2,6 @@ from pydantic import BaseModel
 
 
 class Item(BaseModel):
-    order_id: int
     name: str
     price: float
     number: int
@@ -19,4 +18,3 @@ class Stats(BaseModel):
 
 class Order(BaseModel):
     title: str
-    total: float

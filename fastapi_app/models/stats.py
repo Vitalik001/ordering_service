@@ -35,4 +35,16 @@ async def get_stats():
                 JOIN items i ON o.id = i.order_id;"
             )
             result = await cur.fetchall()
-    return result
+            print(result)
+            if None in result[0]:
+                return {"message": "please, add some items"}
+
+            statistics = {
+                "total_orders": result[0][0],
+                "total_order_price": float(result[0][1]),
+                "avg_order_price": float(result[0][2]),
+                "total_items": result[0][3],
+                "avg_items": float(result[0][4]),
+                "most_ordered_item": result[0][5]
+            }
+    return statistics

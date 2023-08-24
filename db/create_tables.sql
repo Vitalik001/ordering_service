@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS orders (
                 id SERIAL PRIMARY KEY,
-                created_date DATE NOT NULL DEFAULT CURRENT_DATE,
-                updated_date DATE NOT NULL DEFAULT CURRENT_DATE,
+                created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                updated_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                 title VARCHAR(255) NOT NULL,
-                total DECIMAL(10, 2) NOT NULL);
+                total DECIMAL(10, 2) NOT NULL DEFAULT 0.00);
 
 CREATE TABLE IF NOT EXISTS items (
     id SERIAL PRIMARY KEY,

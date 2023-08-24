@@ -73,13 +73,6 @@ async def delete_order(order_id: int):
         return {"message": "Order deleted successfully"}
 
 
-# GET /stats - return general stats
-
-
-
-
-
-
 
 # GET /orders/<id>/items - list items of a single order
 @orders.get("/{id}/items")
@@ -110,55 +103,37 @@ async def add_item(id: int, item: Item):
 
 
 # # PUT /orders/<id>/items/<id> - update existing order item
-# @app.put("/orders/{order_id}/items/{item_id}", response_model=List[Item])
-# async def update_item(order_id: int, item_id: int):
-#     for item in orders[order_id].items:
-#         if item.id == item_id:
-#             # update item
-#             return orders[id].items
+@orders.put("/{order_id}/items/{item_id}")
+async def update_order_item(order_id: int, item_id: int, updated_item: Item):
+    async with pool.connection() as conn, conn.cursor() as cur:
+        await cur.execute("SELECT * FROM items WHERE id = %s AND order_id = %s", [item_id, order_id])
+        existing_item = await cur.fetchall()
+        if existing_item is None:
+            raise HTTPException(status_code=404, detail="Item not found")
+
+        total = 0  # Calculate the new total value here
+
+        await conn.execute(
+            "UPDATE items SET name = %s, price = %s, number = %s WHERE id = %s",
+            [updated_item.name,
+            updated_item.price,
+            updated_item.number,
+            item_id]
+        )
+        return {"message": "Item updated successfully"}
 #
 #
 # # DELETE /orders/<id>/items/<id> - delete existing order item
-# @app.delete("orders/{order_id}/items/{item_id}", response_model=List[Item])
-# async def delete_item(order_id: int, item_id: int):
-#     for item in orders[order_id].items:
-#         if item.id == item_id:
-#             del item
-#             return orders[id].items
-#
-#
-# # GET /orders - list all orders
-# @app.get("orders", response_model=List[Order])
-# async def get_orders():
-#     return orders
-#
-#
-# # GET /orders/<id> - get a single order
-# @app.get("/orders/{id}", response_model=Order)
-# async def get_order(id: int):
-#     return orders[id]
-#
-#
+@orders.delete("/{order_id}/items/{item_id}")
+async def delete_order_item(order_id: int, item_id: int):
+    async with pool.connection() as conn, conn.cursor() as cur:
+        # Check if the order exists
+        await cur.execute("SELECT * FROM items WHERE id = %s AND order_id = %s", [item_id, order_id])
+        existing_item = await cur.fetchall()
+        if existing_item is None:
+            raise HTTPException(status_code=404, detail="Item not found")
 
-#
-#
-# # PUT /orders/<id> - update existing order
-# @app.put("orders/{id}", response_model=List[Order])
-# async def update_order(id: int):
-#     # update order
-#     return orders
-#
-#
-# # DELETE /orders/<id> - delete existing order
-# @app.delete("/orders/{id}", response_model=List[Order])
-# async def delete_order(id: int):
-#     for order in orders:
-#         if order.id == id:
-#             del order
-#             return orders
-#
-#
-# # GET /stats - return general stats
-# @app.get("/stats", response_model=Stats)
-# async def get_stats():
-#     return stats
+        # Delete the order from the database
+        await conn.execute("DELETE FROM items WHERE id = %s AND order_id = %s", [item_id, order_id])
+        return {"message": "Item deleted successfully"}
+

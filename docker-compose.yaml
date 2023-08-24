@@ -9,10 +9,10 @@ services:
       - ./db:/code/db
 
   fastapi:
-    build: fastapi
+    build: fastapi_app
     environment:
       - PYTHONUNBUFFERED=0
     volumes:
-      - ./fastapi:/code/fastapi
+      - ./fastapi_app:/code/fastapi_app
     ports:
       - "80:80"

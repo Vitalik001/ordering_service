@@ -1,14 +1,17 @@
-from fastapi import APIRouter
 import datetime
-import schemas
-from database_config import get_async_pool
+
+from fastapi import APIRouter
+
+# from ..db_connection.database_config import get_async_pool
+from fastapi_app.db_connection.database_config import get_async_pool
+from .schemas import Order
 
 orders = APIRouter(prefix="/orders")
 
 pool = get_async_pool()
 
 @orders.post("")
-async def add_order(order: schemas.Order):
+async def add_order(order: Order):
     async with pool.connection() as conn:
         total = 0 #get total value
         await conn.execute(

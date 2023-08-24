@@ -2,7 +2,7 @@ from functools import lru_cache
 
 from psycopg_pool import AsyncConnectionPool
 
-from config import get_settings
+from .read_config import get_settings
 
 settings = get_settings()
 

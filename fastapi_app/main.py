@@ -1,9 +1,9 @@
 import asyncio
 from fastapi import FastAPI
 
-from orders import orders
-from items import items
-from database_config import get_async_pool
+from fastapi_app.models.orders import orders
+from fastapi_app.models.items import items
+from fastapi_app.db_connection.database_config import get_async_pool
 
 app = FastAPI(
     title="ordering service"

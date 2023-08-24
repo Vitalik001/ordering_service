@@ -2,6 +2,7 @@ from functools import lru_cache
 
 from pydantic import BaseSettings
 
+
 # uncomment to see psycopg.pool logs
 # import logging
 # logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -16,7 +17,7 @@ class Settings(BaseSettings):
     db_name: str
 
     class Config:
-        env_file = ".env"
+        env_file = "fastapi_app/.env"
 
 
 @lru_cache()

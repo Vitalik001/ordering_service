@@ -136,14 +136,14 @@ async def delete_order_item(order_id: int, item_id: int):
 
 async def update_total(cur, id):
     await cur.execute("UPDATE orders o \
-                                                SET \
-                                                    total = ( \
-                                                        SELECT SUM(i.number * i.price) \
-                                                        FROM items i \
-                                                        WHERE i.order_id = o.id \
-                                                    ), \
-                                                    updated_date = CURRENT_TIMESTAMP \
-                                                WHERE EXISTS ( \
-                                                    SELECT 1 \
-                                                    WHERE o.id = %s \
-                                                );", [id])
+                        SET \
+                            total = ( \
+                                SELECT SUM(i.number * i.price) \
+                                FROM items i \
+                                WHERE i.order_id = o.id \
+                            ), \
+                            updated_date = CURRENT_TIMESTAMP \
+                        WHERE EXISTS ( \
+                            SELECT 1 \
+                            WHERE o.id = %s \
+                        );", [id])
